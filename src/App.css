@@ -1,2 +1,62 @@
+.App {
+  max-width: 440px;
+  margin: auto;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 5px;
+}
+
 .button-body {
+}
+
+.custom-file-upload {
+  opacity: 0;
+  overflow: hidden;
+  width: 420px;
+  height: 60px;
+  position: absolute;
+  border: 1px solid red;
+}
+
+.video-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+.btn-group {
+  display: flex;
+}
+
+.btn {
+  width: 100%;
+}
+
+/* ERROR */
+.error-img {
+  max-width: 80%;
+  padding: 50px;
+  border: 0;
+}
+
+/* Home */
+.profile-pic-small {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.username {
+  --color: rgba(206, 206, 206, 0.571);
+}
+
+/*TAB */
+.Tab {
+  z-index: 100;
+}
+
+.tab-button {
+  width: 100%;
+  color: white;
+  font-size: 24px;
+  height: 50px;
+  position: fixed;
+  z-index: 2;
 }

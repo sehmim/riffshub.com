@@ -28,6 +28,7 @@
     "cordova-plugin-video-editor": "^1.1.3",
     "cordova-plugin-video-player": "git+https://github.com/moust/cordova-plugin-videoplayer.git",
     "editly": "^0.11.1",
+    "firebase": "^8.2.4",
     "ionicons": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",

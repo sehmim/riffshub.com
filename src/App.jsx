@@ -1,58 +1,54 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonPage , IonHeader, IonToolbar, IonTitle, IonContent,IonButton, IonItem} from '@ionic/react';
+
+//////////////////////////////////////////////////////////////////
+  /* Core CSS required for Ionic components to work properly */
+  import '@ionic/react/css/core.css';
+
+  /* Basic CSS for apps built with Ionic */
+  import '@ionic/react/css/normalize.css';
+  import '@ionic/react/css/structure.css';
+  import '@ionic/react/css/typography.css';
+
+  /* Optional CSS utils that can be commented out */
+  import '@ionic/react/css/padding.css';
+  import '@ionic/react/css/float-elements.css';
+  import '@ionic/react/css/text-alignment.css';
+  import '@ionic/react/css/text-transformation.css';
+  import '@ionic/react/css/flex-utils.css';
+  import '@ionic/react/css/display.css';
+
+  /* Theme variables */
+  import './theme/variables.css';
+//////////////////////////////////////////////////////////////////
+
+// Ionic Stuff imported by me
+import { IonLoading, IonProgressBar, IonApp, IonRouterOutlet, IonPage , IonHeader, IonToolbar, IonTitle, IonContent,IonButton, IonItem, IonCard} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+
+// My pages
 import {Home} from './pages/Home';
-import ImageUploader from 'react-images-upload';
 
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { Camera } from '@ionic-native/camera';
-import { FileTransfer } from '@ionic-native/file-transfer';
-import { FileChooser } from '@ionic-native/file-chooser';
-import { VideoPlayer } from "@ionic-native/video-player";
-import { VideoEditor } from "@ionic-native/video-editor";
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+// My Components
+import Error from "./components/Error";
 
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+// Configs && modules
+import { firebaseConfig } from "./Firebase";
+import firebase from 'firebase/app'
+import "firebase/storage";
+import 'firebase/firestore';
 
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
 
+// CSS & assets
 import "./App.css"
-
-
-/* Theme variables */
-import './theme/variables.css';
-import VideoRecorder from 'react-video-recorder'
-
-var VideoEditorOptions = {
-  OptimizeForNetworkUse: {
-      NO: 0,
-      YES: 1
-  },
-  OutputFileType: {
-      M4V: 0,
-      MPEG4: 1,
-      M4A: 2,
-      QUICK_TIME: 3
-  }
-};
-
+import { LOADING_IMG } from "./assets/squid.gif";
 
 const App = () => {
+  const Firebase = firebase.initializeApp(firebaseConfig);
 
-  const [cameraControl, setCameraControl] = useState(false)
 
-  return ( <IonApp>
+  return ( 
+  <IonApp className="App">
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/home" component={Home} exact={true} />
@@ -67,122 +63,125 @@ const App = () => {
           <IonTitle>RiffsHub</IonTitle>
         </IonToolbar>
       </IonHeader>
-      {/* {
-      cameraControl ?   
-          <>
-          <div className="button-body">
-            <IonButton onClick={()=> {setCameraControl(!cameraControl)}}>Select This</IonButton>
-          </div>
-          <VideoRecorder
-          chunkSize={250}
-          constraints={{
-            audio: true,
-            video: true
-          }}
-          // mimeType={10}
-          onRecordingComplete={videoBlob => {
-            console.log('videoBlob', videoBlob)
-          }}
-          onStopRecording={()=> {}}
-          showReplayControls
-          />
-        </>
-        : 
-      <IonButton onClick={()=> {setCameraControl(!cameraControl)}}>Open Camera</IonButton>
-      } */}
-      <Tab1 />
+      <IonContent>
+        <Tab1 className="Tab" Firebase={Firebase} />
+        <br></br><br></br><br></br>
+        <Home Firebase={Firebase} />
+      </IonContent>
     </IonPage>
   </IonApp>)
 };
 
-const Tab1 = () => {
+const Tab1 = ({Firebase}) => {
 
   const [pickedFile, setPickedFile] = useState()
   const [videoURL, setVideoURL] = useState()
+  const [error, setError] = useState()
+  const [uploading, setUploading] = useState(false)
+
+
   const videoElm = useRef();
 
   useEffect(() => {
-    console.log('---dlwdlwld', videoElm)
+    if(pickedFile){
+        setTimeout(() => {
+          if (videoElm.current && videoElm.current.duration > 16) {
+            setError(true)
+          } else {
+            setError(undefined)
+          }
+        }, 250);
+    }
+
   }, [videoURL])
-
-  const openScanner = async () => {
-    const data = await BarcodeScanner.scan();
-    console.log(`Barcode data: ${data.text}`);
-  };
-
-  const openFileTransfer = async () => {
-    // const data = await FileTransfer.create();
-    console.log(`File:`);
-    FileChooser.open(function(uri) {
-      alert(uri);
-    });
-  };
-
-  console.log(pickedFile ? pickedFile[0] : null)
-  
-  const handleEdit = () => {
-    VideoPlayer.play(URL.createObjectURL(pickedFile[0]));
-  }
-
-  
-  
-  function videoTranscodeSuccess(result) {
-    // result is the path to the transcoded video on the device
-      console.log('videoTranscodeSuccess, result: ' + result);
-  }
-  
-  function videoTranscodeError(err) {
-    console.log('videoTranscodeError, err: ' + err);
-  }
 
   function handleFilePick(e){
     let fileURL = URL.createObjectURL(e.target.files[0])
     
     setPickedFile(e.target.files)
     setVideoURL(fileURL)
-
-    // console.log(videoElm.current)
   }
 
-  console.log(pickedFile ? pickedFile.duration : null)
+  { console.log("Error state ----> ", error)}
+  { console.log("pickedFile state ----> ", pickedFile)}
 
+  const handleCancel = () => {
+    setPickedFile(null)
+  }
+
+  const handleUpload = () => {
+    setUploading(true)
+
+    const storageRef = Firebase.storage().ref('videos')
+    const fileRef = storageRef.child(pickedFile[0].name)
+
+    fileRef.put(pickedFile)
+      .then(() => {
+
+        // Get the URL and set it to firestore
+        storageRef.child(pickedFile[0].name).getDownloadURL().then(url => {
+          Firebase
+            .firestore()
+            .collection('videos')
+            .add({
+              vidUrl: url
+            })
+            .then(() => {
+              setUploading(false)
+              setPickedFile(null)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        });
+      })
+      .catch(err=> console.log(err))
+  }
 
   return (
     <>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      {/* <IonContent>
-        <IonButton onClick={openScanner}>Scan barcode</IonButton>
-      </IonContent> */}
-
-      <IonContent>
-
+      {
+        uploading ?
+        <>
+            <IonLoading
+              cssClass='my-custom-class'
+              isOpen={uploading}
+              message={`Uploading...\n%`}
+            />
+            <IonProgressBar
+              color="secondary" 
+              value={0.5} />
+        </>
+        :
+      <>
         {
           pickedFile ? 
+            error ?               
+            <Error 
+              setError={setError} 
+                setPickedFile={setPickedFile}
+              /> 
+            :
+            <div>
+              <video 
+                className="video-viewer"
+                ref={videoElm}
+                src={videoURL} autoPlay />
+              <div className="btn-group">
+                <IonButton className="btn" color="dark" onClick={handleUpload}>Upload</IonButton>
+                {/* <IonButton disabled className="btn" color="light" onClick={()=> {}}>Edit</IonButton> */}
+                <IonButton className="btn" color="danger" onClick={handleCancel}>Cancel</IonButton>
+              </div>
+            </div>
 
-          <div>
-            <video 
-            ref={videoElm}
-            style={{
-              width: "100vw",
-              height: "70vh"
-            }}
-            src={videoURL} controls autoPlay></video>
-          <div>
-
-            <IonButton color="dark" onClick={()=> {}}>Upload</IonButton>
-            <IonButton color="dark" onClick={()=> {}}>Edit</IonButton>
-          </div>
-          </div>
-
-        : <IonButton style={{zIndex: 1, padding: 0, width: '100%'}} color="dark">
-          <input accept="video/*" type="file" style={{zIndex: -1, cursor: "pointer"}} onChange={handleFilePick}></input>
+        : 
+        <IonButton className="tab-button" color="dark">
+          <p>+</p>
+          <input className="custom-file-upload" accept="video/*" type="file" onChange={handleFilePick}></input>
         </IonButton>
         }        
-      </IonContent>
+      </>
+      }
     </>
   );
 };
