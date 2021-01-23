@@ -33,10 +33,7 @@ import {Home} from './pages/Home';
 import Error from "./components/Error";
 
 // Configs && modules
-import { firebaseConfig } from "./Firebase";
-import firebase from 'firebase/app'
-import "firebase/storage";
-import 'firebase/firestore';
+
 
 
 // CSS & assets
@@ -44,7 +41,7 @@ import "./App.css"
 import { LOADING_IMG } from "./assets/squid.gif";
 
 const App = () => {
-  const Firebase = firebase.initializeApp(firebaseConfig);
+  // const Firebase = firebase.initializeApp(firebaseConfig);
 
 
   return ( 
@@ -64,15 +61,15 @@ const App = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <Tab1 className="Tab" Firebase={Firebase} />
+        <Tab1 className="Tab" />
         <br></br><br></br><br></br>
-        <Home Firebase={Firebase} />
+        <Home/>
       </IonContent>
     </IonPage>
   </IonApp>)
 };
 
-const Tab1 = ({Firebase}) => {
+const Tab1 = () => {
 
   const [pickedFile, setPickedFile] = useState()
   const [videoURL, setVideoURL] = useState()
@@ -112,30 +109,30 @@ const Tab1 = ({Firebase}) => {
   const handleUpload = () => {
     setUploading(true)
 
-    const storageRef = Firebase.storage().ref('videos')
-    const fileRef = storageRef.child(pickedFile[0].name)
+    // const storageRef = Firebase.storage().ref('videos')
+    // const fileRef = storageRef.child(pickedFile[0].name)
 
-    fileRef.put(pickedFile)
-      .then(() => {
+    // fileRef.put(pickedFile)
+    //   .then(() => {
 
-        // Get the URL and set it to firestore
-        storageRef.child(pickedFile[0].name).getDownloadURL().then(url => {
-          Firebase
-            .firestore()
-            .collection('videos')
-            .add({
-              vidUrl: url
-            })
-            .then(() => {
+    //     // Get the URL and set it to firestore
+    //     storageRef.child(pickedFile[0].name).getDownloadURL().then(url => {
+    //       Firebase
+    //         .firestore()
+    //         .collection('videos')
+    //         .add({
+    //           vidUrl: url
+    //         })
+    //         .then(() => {
               setUploading(false)
               setPickedFile(null)
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        });
-      })
-      .catch(err=> console.log(err))
+      //       })
+      //       .catch((err) => {
+      //         console.log(err)
+      //       })
+      //   });
+      // })
+      // .catch(err=> console.log(err))
   }
 
   return (

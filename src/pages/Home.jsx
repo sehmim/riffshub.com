@@ -5,9 +5,9 @@ import './Home.css';
 import VideoRecorder from 'react-video-recorder'
 
 // configs
-import firebase from 'firebase/app'
-import "firebase/storage";
-import 'firebase/firestore';
+// import firebase from 'firebase/app'
+// import "firebase/storage";
+// import 'firebase/firestore';
 
 
 // 
@@ -20,9 +20,9 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const db = firebase.firestore();
-      const data = await db.collection("videos").get();
-      setPosts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      // const db = firebase.firestore();
+      // const data = await db.collection("videos").get();
+      // setPosts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     fetchData();
   }, []);
