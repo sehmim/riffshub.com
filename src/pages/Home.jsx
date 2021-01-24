@@ -9,6 +9,8 @@ import VideoRecorder from 'react-video-recorder'
 // import "firebase/storage";
 // import 'firebase/firestore';
 
+import { Storage } from 'aws-amplify';
+
 
 // 
 import DEFAULT_PROFILE from "../assets/fin.jpg"
@@ -16,13 +18,14 @@ import DEFAULT_PROFILE from "../assets/fin.jpg"
 import "../App.css"
 
 const Home = () => {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([{}])
+  const [tmp, setTmp] = useState()
+
 
   useEffect(() => {
     const fetchData = async () => {
-      // const db = firebase.firestore();
-      // const data = await db.collection("videos").get();
-      // setPosts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      const data = await Storage.get(`iiiiiiii.mp4`, { level: 'public' })
+      setTmp(data)
     };
     fetchData();
   }, []);
@@ -34,7 +37,7 @@ const Home = () => {
         {
           posts.map((item, index)=> {
             return(
-              <Card item={item} key={index} />
+              <Card item={item} key={index} tmp={tmp}/>
             )
           })
         }
@@ -42,12 +45,12 @@ const Home = () => {
   );
 };
 
-const Card = ({ item }) => {
+const Card = ({ item, tmp }) => {
 
-    const url = "https://firebasestorage.googleapis.com/v0/b/whatsapp-clone-89761.appspot.com/o/videos%2FBleeze%20IG%20STORY%202.mp4"
+    const url = "http://techslides.com/demos/sample-videos/small.mp4"
     const [muted, setMuted] = useState(true)
 
-    console.log(muted)
+    console.log("---SRC--->", tmp)
 
     return (<IonCard>
       <IonItem>
@@ -59,7 +62,7 @@ const Card = ({ item }) => {
       <IonItem onClick={()=> {setMuted(!muted)}}>
         <video 
           className="video-viewer"
-          src={url} autoPlay 
+          src={tmp} autoPlay 
           muted={muted}
           />
       </IonItem>

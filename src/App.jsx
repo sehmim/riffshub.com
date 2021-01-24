@@ -33,18 +33,24 @@ import {Home} from './pages/Home';
 import Error from "./components/Error";
 
 // Configs && modules
-
+import awsExports from "./aws-exports";
+import Amplify, { Auth, Storage } from 'aws-amplify';
 
 
 // CSS & assets
 import "./App.css"
 import { LOADING_IMG } from "./assets/squid.gif";
 
+
+import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+
 const App = () => {
   // const Firebase = firebase.initializeApp(firebaseConfig);
+  Amplify.configure(awsExports);
 
 
   return ( 
+    <AmplifyAuthenticator >
   <IonApp className="App">
     <IonReactRouter>
       <IonRouterOutlet>
@@ -57,6 +63,7 @@ const App = () => {
     <IonPage >
       <IonHeader>
         <IonToolbar>
+          <AmplifySignOut />
           <IonTitle>RiffsHub</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -66,7 +73,9 @@ const App = () => {
         <Home/>
       </IonContent>
     </IonPage>
-  </IonApp>)
+  </IonApp>
+  </AmplifyAuthenticator>
+  )
 };
 
 const Tab1 = () => {
@@ -75,6 +84,8 @@ const Tab1 = () => {
   const [videoURL, setVideoURL] = useState()
   const [error, setError] = useState()
   const [uploading, setUploading] = useState(false)
+  const [uploadingProgress, setUploadingProgress] = useState(0)
+
 
 
   const videoElm = useRef();
@@ -106,8 +117,7 @@ const Tab1 = () => {
     setPickedFile(null)
   }
 
-  const handleUpload = () => {
-    setUploading(true)
+  // const handleUpload = () => {
 
     // const storageRef = Firebase.storage().ref('videos')
     // const fileRef = storageRef.child(pickedFile[0].name)
@@ -124,8 +134,8 @@ const Tab1 = () => {
     //           vidUrl: url
     //         })
     //         .then(() => {
-              setUploading(false)
-              setPickedFile(null)
+              // setUploading(false)
+              // setPickedFile(null)
       //       })
       //       .catch((err) => {
       //         console.log(err)
@@ -133,6 +143,23 @@ const Tab1 = () => {
       //   });
       // })
       // .catch(err=> console.log(err))
+  // }
+
+  const handleUpload = () => {
+    setUploading(true)
+
+    Storage.put(pickedFile[0].name, pickedFile[0], {
+      progressCallback(progress) {
+          setUploadingProgress((progress.loaded/progress.total) * 100)
+          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      },
+    })
+    .then (result => {
+        setUploading(false)
+        setPickedFile(null)
+        console.log(result)
+      })
+    .catch(err => console.log(err));
   }
 
   return (
@@ -143,7 +170,7 @@ const Tab1 = () => {
             <IonLoading
               cssClass='my-custom-class'
               isOpen={uploading}
-              message={`Uploading...\n%`}
+              message={`Uploading...\n${uploadingProgress}%`}
             />
             <IonProgressBar
               color="secondary" 

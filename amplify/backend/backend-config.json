@@ -1,0 +1,15 @@
+{
+	"auth": {
+		"videoteste710a2fd": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"storage": {
+		"vids": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
