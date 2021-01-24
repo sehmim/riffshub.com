@@ -1,25 +1,25 @@
-import { IonButton, IonContent, IonCard, IonItem, IonLabel, IonCardContent } from '@ionic/react';
-import React, { useState, useEffect, useRef } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard } from '@ionic/react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+
+// Styles and assets
 import './Home.css';
-import VideoRecorder from 'react-video-recorder'
-
-
-// configs
-// import firebase from 'firebase/app'
-// import "firebase/storage";
-// import 'firebase/firestore';
-
-import { Storage, API, graphqlOperation  } from 'aws-amplify';
-import { listPosts } from '../graphql/queries'
-
-// 
+import "../App.css"
 import DEFAULT_PROFILE from "../assets/fin.jpg"
 
-import "../App.css"
+// Modules
+import { Storage, API, graphqlOperation } from 'aws-amplify';
+import { listPosts } from '../graphql/queries'
+
+
+// Components and pages
+import { AppContext } from "../State"
+import SigninToPostButton from "../components/SigninToPostButton";
+import PostContentButton from "../components/PostContentButton"
+
 
 const Home = () => {
   const [posts, setPosts] = useState([])
+  const { state, dispatch } = useContext(AppContext)
 
   useEffect(() => {
     fetchPosts();
@@ -34,17 +34,28 @@ const Home = () => {
     } catch (err) { console.log('error fetching todos') }
   }
 
-
   return (
-    <>
+    <IonPage >
+      <IonHeader>
+        <IonToolbar>
+          {/* <AmplifySignOut /> */}
+          <IonTitle style={{textAlign: "center"}}> Riffs Hub</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
         {
-          posts.map((item, index)=> {
-            return(
-              <Card item={item} key={index}/>
-            )
-          })
+          state.currentUser ? <PostContentButton /> : <SigninToPostButton/>
         }
-    </>
+        <br></br><br></br><br></br>
+          {
+            posts.map((item, index)=> {
+              return(
+                <Card item={item} key={index}/>
+              )
+            })
+          }
+      </IonContent>
+    </IonPage>
   );
 };
 
@@ -55,7 +66,10 @@ const Card = ({ item }) => {
     const videoElm = useRef();
     const [videoUrl, setVideoUrl] = useState("")
     const [isPlaying, setisPlaying] = useState(false)
+    const { state, dispatch } = useContext(AppContext)
 
+    // console.log(state.currentUser.UserAttributes[4].Value)
+    
     const pauseVideo = () => {
       if (!isPlaying) {
         videoElm.current.play()
@@ -80,7 +94,7 @@ const Card = ({ item }) => {
 
     return (<IonCard>
       <IonItem>
-        <IonLabel className="username">@finthehuman</IonLabel>
+        <IonLabel className="username">@</IonLabel>
         <IonButton color="light" slot="end">
           <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
         </IonButton>

@@ -61,3 +61,10 @@
   position: fixed;
   z-index: 2;
 }
+
+/* Button */
+.tab-button-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
