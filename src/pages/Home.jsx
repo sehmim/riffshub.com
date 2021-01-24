@@ -1,16 +1,17 @@
 import { IonButton, IonContent, IonCard, IonItem, IonLabel, IonCardContent } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import VideoRecorder from 'react-video-recorder'
+
 
 // configs
 // import firebase from 'firebase/app'
 // import "firebase/storage";
 // import 'firebase/firestore';
 
-import { Storage } from 'aws-amplify';
-
+import { Storage, API, graphqlOperation  } from 'aws-amplify';
+import { listPosts } from '../graphql/queries'
 
 // 
 import DEFAULT_PROFILE from "../assets/fin.jpg"
@@ -18,26 +19,28 @@ import DEFAULT_PROFILE from "../assets/fin.jpg"
 import "../App.css"
 
 const Home = () => {
-  const [posts, setPosts] = useState([{}])
-  const [tmp, setTmp] = useState()
-
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await Storage.get(`iiiiiiii.mp4`, { level: 'public' })
-      setTmp(data)
-    };
-    fetchData();
+    fetchPosts();
   }, []);
 
-  console.log("POSTS --->", posts)
+  async function fetchPosts() {
+    try {
+      const postsData = await API.graphql(graphqlOperation(listPosts))
+      const fetchedPosts = postsData.data.listPosts.items
+      setPosts(fetchedPosts)
+      
+    } catch (err) { console.log('error fetching todos') }
+  }
+
 
   return (
     <>
         {
           posts.map((item, index)=> {
             return(
-              <Card item={item} key={index} tmp={tmp}/>
+              <Card item={item} key={index}/>
             )
           })
         }
@@ -45,12 +48,35 @@ const Home = () => {
   );
 };
 
-const Card = ({ item, tmp }) => {
 
-    const url = "http://techslides.com/demos/sample-videos/small.mp4"
-    const [muted, setMuted] = useState(true)
 
-    console.log("---SRC--->", tmp)
+const Card = ({ item }) => {
+
+    const videoElm = useRef();
+    const [videoUrl, setVideoUrl] = useState("")
+    const [isPlaying, setisPlaying] = useState(false)
+
+    const pauseVideo = () => {
+      if (!isPlaying) {
+        videoElm.current.play()
+        setisPlaying(true)
+      } else {
+        videoElm.current.pause()
+        setisPlaying(false)
+      }
+    }
+    
+    useEffect(()=> {
+      fetchVideos()
+    },[])
+
+    const fetchVideos = async () => {
+      const vid = await Storage.get(item.vidUrl)
+      setVideoUrl(vid)
+    }
+
+    console.log("videoUrl -->", videoUrl)
+    
 
     return (<IonCard>
       <IonItem>
@@ -59,11 +85,11 @@ const Card = ({ item, tmp }) => {
           <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
         </IonButton>
       </IonItem>
-      <IonItem onClick={()=> {setMuted(!muted)}}>
+      <IonItem onClick={pauseVideo}>
         <video 
+          ref={videoElm}
           className="video-viewer"
-          src={tmp} autoPlay 
-          muted={muted}
+          src={videoUrl} 
           />
       </IonItem>
     </IonCard>)}

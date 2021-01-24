@@ -34,8 +34,8 @@ import Error from "./components/Error";
 
 // Configs && modules
 import awsExports from "./aws-exports";
-import Amplify, { Auth, Storage } from 'aws-amplify';
-
+import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+import { createPost } from "./graphql/mutations";
 
 // CSS & assets
 import "./App.css"
@@ -145,7 +145,7 @@ const Tab1 = () => {
       // .catch(err=> console.log(err))
   // }
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     setUploading(true)
 
     Storage.put(pickedFile[0].name, pickedFile[0], {
@@ -155,9 +155,15 @@ const Tab1 = () => {
       },
     })
     .then (result => {
-        setUploading(false)
-        setPickedFile(null)
-        console.log(result)
+        const post = { 
+          title: "Default Title",
+          vidUrl: result.key
+        }
+        API.graphql(graphqlOperation(createPost, {input: post})).then(() =>{
+          setUploading(false)
+          setPickedFile(null)
+          console.log(result)
+        }).catch(err => console.log(err))
       })
     .catch(err => console.log(err));
   }
@@ -174,7 +180,7 @@ const Tab1 = () => {
             />
             <IonProgressBar
               color="secondary" 
-              value={0.5} />
+              value={uploadingProgress} />
         </>
         :
       <>
