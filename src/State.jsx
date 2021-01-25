@@ -14,12 +14,7 @@ let reducer = (state, action) => {
         case "setAppName": {
             return {...state, appName: action.payload.appName}
         }
-        // case "loadUser": {
-        //         const user = action.payload
-        //         localStorage.setItem("whatsapp-clone-user", JSON.stringify(user))
-        //         return { ...state, user: user }
-        //     }
-    
+
         default:
             break;
     }
