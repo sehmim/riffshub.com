@@ -6,7 +6,7 @@ let AppContext = createContext({})
 
 const initialState = {
     appName : "RiffsHub",
-    currentUser: JSON.parse(localStorage.getItem("CognitoIdentityServiceProvider.4fjjmtrork0jvcsou5303lej8v.73cca8e7-1fa2-4a75-8038-09c7e811f596.userData"))
+    currentUser: null
 }
 
 let reducer = (state, action) => {
@@ -14,7 +14,14 @@ let reducer = (state, action) => {
         case "setAppName": {
             return {...state, appName: action.payload.appName}
         }
-
+        
+        case "getCurrentUser" : {
+            return { ...state, currentUser: action.payload }
+        }
+        case "signOutUser" : {
+            return { ...state, currentUser: null }
+        }
+    
         default:
             break;
     }

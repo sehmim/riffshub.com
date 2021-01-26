@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 
 import Error from "../components/Error";
 import { IonLoading, IonProgressBar, IonApp, IonRouterOutlet, IonPage , IonHeader, IonToolbar, IonTitle, IonContent,IonButton, IonItem, IonCard} from '@ionic/react';
@@ -6,6 +6,7 @@ import { IonLoading, IonProgressBar, IonApp, IonRouterOutlet, IonPage , IonHeade
 
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { createPost } from "../graphql/mutations";
+import { AppContext } from "../State";
 
 import BackButton from "../components/BackButton";
 
@@ -16,9 +17,11 @@ const UploadPage = () => {
     const [error, setError] = useState()
     const [uploading, setUploading] = useState(false)
     const [uploadingProgress, setUploadingProgress] = useState(0)
-  
+
     const videoElm = useRef();
   
+    const { state, dispatch } = useContext(AppContext)
+
     useEffect(() => {
       if(pickedFile){
           setTimeout(() => {
@@ -56,7 +59,8 @@ const UploadPage = () => {
       .then (result => {
           const post = { 
             title: "Default Title",
-            vidUrl: result.key
+            vidUrl: result.key,
+            postAuthorId: state.currentUser.username
           }
           API.graphql(graphqlOperation(createPost, {input: post})).then(() =>{
             setUploading(false)

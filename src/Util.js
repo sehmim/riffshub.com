@@ -1,10 +1,11 @@
 import { Auth } from 'aws-amplify';
+import { userInfo } from 'os';
 
 export const getCurrentUser = async () => {
     try {
-        const data = await Auth.currentAuthenticatedUser();
-        console.log(data)
-        return data
+        // const user = await Auth.currentAuthenticatedUser();
+        const user = {}
+        return user
     } catch (error) {
         console.log(error)
     }

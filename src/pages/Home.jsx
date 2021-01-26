@@ -1,45 +1,69 @@
 import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard } from '@ionic/react';
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useHistory } from 'react';
+// import {AmplifySignOut} from "@aws-amplify/ui-react";
+import { Auth } from 'aws-amplify';
 
 // Styles and assets
 import './Home.css';
 import "../App.css"
 import DEFAULT_PROFILE from "../assets/fin.jpg"
+import LOGO from "../assets/guitar.jpg";
 
 // Modules
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { listPosts } from '../graphql/queries'
-
+import { getCurrentUser } from "../Util";
 
 // Components and pages
 import { AppContext } from "../State"
 import SigninToPostButton from "../components/SigninToPostButton";
 import PostContentButton from "../components/PostContentButton"
+import BackButton from '../components/BackButton';
 
 
-const Home = () => {
+const Home = ({ history }) => {
   const [posts, setPosts] = useState([])
   const { state, dispatch } = useContext(AppContext)
 
   useEffect(() => {
     fetchPosts();
+    getCurrentUser().then(result => {
+      dispatch({
+        type: "getCurrentUser",
+        payload: result
+      })
+    }).catch(err => console.log(err))
   }, []);
 
   async function fetchPosts() {
     try {
-      const postsData = await API.graphql(graphqlOperation(listPosts))
-      const fetchedPosts = postsData.data.listPosts.items
-      setPosts(fetchedPosts)
+      // const postsData = await API.graphql(graphqlOperation(listPosts))
+      // const fetchedPosts = postsData.data.listPosts.items
+      // setPosts(fetchedPosts)
       
     } catch (err) { console.log('error fetching todos') }
   }
+
+  async function handleSignout() {
+    try {
+        await Auth.signOut();
+        history.replace("/")
+        dispatch({
+          type: "signOutUser",
+        })
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+}
 
   return (
     <IonPage >
       <IonHeader>
         <IonToolbar>
-          {/* <AmplifySignOut /> */}
-          <IonTitle style={{textAlign: "center"}}> Riffs Hub</IonTitle>
+          <button onClick={handleSignout}> Signout</button>
+          <IonTitle style={{textAlign: "center"}}>
+            <img className="logo" src={LOGO} alt="logo"/>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -88,13 +112,11 @@ const Card = ({ item }) => {
       const vid = await Storage.get(item.vidUrl)
       setVideoUrl(vid)
     }
-
-    console.log("videoUrl -->", videoUrl)
     
 
     return (<IonCard>
       <IonItem>
-        <IonLabel className="username">@</IonLabel>
+        <IonLabel className="username"></IonLabel>
         <IonButton color="light" slot="end">
           <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
         </IonButton>

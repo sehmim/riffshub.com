@@ -13,20 +13,12 @@ import { Home } from './Home';
 function Authpage() {
     return (
         <IonPage>
-            {/* <IonHeader>
+            <IonHeader>
                 <IonToolbar>
                 <IonTitle>AuthPage</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">Hello World</IonContent> */}
-
-
-            <AmplifyAuthenticator>
-                <Home>
-                    <AmplifySignOut />
-                </Home>
-            </AmplifyAuthenticator>
-
+            <IonContent className="ion-padding">Hello World</IonContent>
         </IonPage>
 
         
