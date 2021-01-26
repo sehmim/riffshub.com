@@ -13,22 +13,11 @@ export const createPost = `mutation CreatePost(
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -44,22 +33,11 @@ export const updatePost = `mutation UpdatePost(
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -75,22 +53,11 @@ export const deletePost = `mutation DeletePost(
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -108,27 +75,9 @@ export const createComment = `mutation CreateComment(
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -146,27 +95,9 @@ export const updateComment = `mutation UpdateComment(
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -184,111 +115,9 @@ export const deleteComment = `mutation DeleteComment(
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const createUser = `mutation CreateUser(
-  $input: CreateUserInput!
-  $condition: ModelUserConditionInput
-) {
-  createUser(input: $input, condition: $condition) {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const updateUser = `mutation UpdateUser(
-  $input: UpdateUserInput!
-  $condition: ModelUserConditionInput
-) {
-  updateUser(input: $input, condition: $condition) {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const deleteUser = `mutation DeleteUser(
-  $input: DeleteUserInput!
-  $condition: ModelUserConditionInput
-) {
-  deleteUser(input: $input, condition: $condition) {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
+    owner
   }
 }
 `;

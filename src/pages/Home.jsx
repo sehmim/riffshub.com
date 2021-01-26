@@ -25,6 +25,8 @@ const Home = ({ history }) => {
   const [posts, setPosts] = useState([])
   const { state, dispatch } = useContext(AppContext)
 
+  console.log(state.currentUser)
+
   useEffect(() => {
     fetchPosts();
     getCurrentUser().then(result => {

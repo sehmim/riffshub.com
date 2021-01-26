@@ -10,22 +10,11 @@ export const getPost = `query GetPost($id: ID!) {
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -42,13 +31,7 @@ export const listPosts = `query ListPosts(
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
     nextToken
   }
@@ -65,27 +48,9 @@ export const getComment = `query GetComment($id: ID!) {
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
@@ -102,62 +67,9 @@ export const listComments = `query ListComments(
         id
         title
         vidUrl
+        owner
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
-    }
-    nextToken
-  }
-}
-`;
-export const getUser = `query GetUser($id: ID!) {
-  getUser(id: $id) {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const listUsers = `query ListUsers(
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
+      owner
     }
     nextToken
   }

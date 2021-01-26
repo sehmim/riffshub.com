@@ -1,9 +1,10 @@
 {
 	"auth": {
-		"videoteste710a2fd": {
+		"videotest0c4365ce": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": []
+			"dependsOn": [],
+			"customAuth": false
 		}
 	},
 	"storage": {
@@ -12,21 +13,5 @@
 			"providerPlugin": "awscloudformation"
 		}
 	},
-	"api": {
-		"vid": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [],
-					"defaultAuthentication": {
-						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
-						"userPoolConfig": {
-							"userPoolId": "authvideoteste710a2fd"
-						}
-					}
-				}
-			}
-		}
-	}
+	"api": {}
 }

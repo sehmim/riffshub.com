@@ -68,3 +68,14 @@
   bottom: 0;
   width: 100%;
 }
+
+/* Auth Page */
+
+.auth-page-body {
+  text-align: center;
+}
+
+.button-grp {
+  display: flex;
+  flex-direction: column;
+}

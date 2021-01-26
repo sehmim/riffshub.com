@@ -1,8 +1,8 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePost = `subscription OnCreatePost {
-  onCreatePost {
+export const onCreatePost = `subscription OnCreatePost($owner: String!) {
+  onCreatePost(owner: $owner) {
     id
     title
     vidUrl
@@ -10,27 +10,16 @@ export const onCreatePost = `subscription OnCreatePost {
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
-export const onUpdatePost = `subscription OnUpdatePost {
-  onUpdatePost {
+export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
+  onUpdatePost(owner: $owner) {
     id
     title
     vidUrl
@@ -38,27 +27,16 @@ export const onUpdatePost = `subscription OnUpdatePost {
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
-export const onDeletePost = `subscription OnDeletePost {
-  onDeletePost {
+export const onDeletePost = `subscription OnDeletePost($owner: String!) {
+  onDeletePost(owner: $owner) {
     id
     title
     vidUrl
@@ -66,27 +44,16 @@ export const onDeletePost = `subscription OnDeletePost {
       items {
         id
         content
+        owner
       }
       nextToken
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
-export const onCreateComment = `subscription OnCreateComment {
-  onCreateComment {
+export const onCreateComment = `subscription OnCreateComment($owner: String!) {
+  onCreateComment(owner: $owner) {
     id
     content
     post {
@@ -96,32 +63,14 @@ export const onCreateComment = `subscription OnCreateComment {
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
-export const onUpdateComment = `subscription OnUpdateComment {
-  onUpdateComment {
+export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
+  onUpdateComment(owner: $owner) {
     id
     content
     post {
@@ -131,32 +80,14 @@ export const onUpdateComment = `subscription OnUpdateComment {
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
+    owner
   }
 }
 `;
-export const onDeleteComment = `subscription OnDeleteComment {
-  onDeleteComment {
+export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
+  onDeleteComment(owner: $owner) {
     id
     content
     post {
@@ -166,102 +97,9 @@ export const onDeleteComment = `subscription OnDeleteComment {
       comments {
         nextToken
       }
-      author {
-        id
-        username
-        bio
-        profileUrl
-        tags
-      }
+      owner
     }
-    author {
-      id
-      username
-      bio
-      profileUrl
-      tags
-      posts {
-        nextToken
-      }
-      comments {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const onCreateUser = `subscription OnCreateUser {
-  onCreateUser {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const onUpdateUser = `subscription OnUpdateUser {
-  onUpdateUser {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const onDeleteUser = `subscription OnDeleteUser {
-  onDeleteUser {
-    id
-    username
-    bio
-    profileUrl
-    tags
-    posts {
-      items {
-        id
-        title
-        vidUrl
-      }
-      nextToken
-    }
-    comments {
-      items {
-        id
-        content
-      }
-      nextToken
-    }
+    owner
   }
 }
 `;

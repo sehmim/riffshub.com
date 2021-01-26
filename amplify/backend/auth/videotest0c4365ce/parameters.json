@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "videoteste710a2fd_identitypool_e710a2fd",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "videote710a2fd",
-    "userPoolName": "videoteste710a2fd_userpool_e710a2fd",
+    "identityPoolName": "videotest0c4365ce_identitypool_0c4365ce",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "videot0c4365ce",
+    "userPoolName": "videotest0c4365ce_userpool_0c4365ce",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,9 +28,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "videote710a2fd_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "videot0c4365ce_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "videoteste710a2fd",
+    "resourceName": "videotest0c4365ce",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -44,10 +44,14 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "usernameAttributes": [
-        "email"
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
+    "hostedUIDomainName": "videotest0c4365ce-0c4365ce",
+    "authProvidersUserPool": [
+        "Facebook"
     ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
     "userPoolGroupList": [],
     "dependsOn": []
 }

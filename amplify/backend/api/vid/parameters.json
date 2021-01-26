@@ -1,5 +1,0 @@
-{
-    "AppSyncApiName": "vid",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": "false"
-}

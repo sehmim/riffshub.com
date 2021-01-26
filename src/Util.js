@@ -3,8 +3,7 @@ import { userInfo } from 'os';
 
 export const getCurrentUser = async () => {
     try {
-        // const user = await Auth.currentAuthenticatedUser();
-        const user = {}
+        const user = await Auth.currentAuthenticatedUser();
         return user
     } catch (error) {
         console.log(error)

@@ -4,21 +4,32 @@ import {
     IonHeader,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonButton
   } from '@ionic/react';
 
 import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
 import { Home } from './Home';
+import { Auth } from 'aws-amplify';
+
+import '../App.css'
 
 function Authpage() {
     return (
-        <IonPage>
+        <IonPage className="auth-page-body">
             <IonHeader>
                 <IonToolbar>
-                <IonTitle>AuthPage</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">Hello World</IonContent>
+            <IonContent className="ion-padding">
+                <IonTitle>Sign In</IonTitle>
+                <div className="button-grp">
+                    <IonButton onClick={()=> Auth.federatedSignIn({
+                        provider: "Facebook"
+                    })} >FACELBOOK LOGO</IonButton>
+                    <IonButton onClick={()=> Auth.federatedSignIn()} >Email</IonButton>
+                </div>
+            </IonContent>
         </IonPage>
 
         

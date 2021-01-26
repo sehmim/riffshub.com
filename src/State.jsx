@@ -1,7 +1,5 @@
 import React, { createContext, useReducer } from "react";
 
-import { getCurrentUser } from "./Util";
-
 let AppContext = createContext({})
 
 const initialState = {
