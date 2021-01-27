@@ -1,21 +1,8 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPost = `query GetPost($id: ID!) {
-  getPost(id: $id) {
-    id
-    title
-    vidUrl
-    comments {
-      items {
-        id
-        content
-        owner
-      }
-      nextToken
-    }
-    owner
-  }
+export const publicLists = `query PublicLists($msg: String) {
+  publicLists(msg: $msg)
 }
 `;
 export const listPosts = `query ListPosts(
@@ -28,12 +15,21 @@ export const listPosts = `query ListPosts(
       id
       title
       vidUrl
-      comments {
-        nextToken
-      }
       owner
     }
     nextToken
+  }
+}
+`;
+export const getPost = `query GetPost($id: ID!) {
+  getPost(id: $id) {
+    id
+    title
+    vidUrl
+    owner
+    comments {
+      nextToken
+    }
   }
 }
 `;
@@ -45,9 +41,6 @@ export const getComment = `query GetComment($id: ID!) {
       id
       title
       vidUrl
-      comments {
-        nextToken
-      }
       owner
     }
     owner
@@ -63,12 +56,6 @@ export const listComments = `query ListComments(
     items {
       id
       content
-      post {
-        id
-        title
-        vidUrl
-        owner
-      }
       owner
     }
     nextToken

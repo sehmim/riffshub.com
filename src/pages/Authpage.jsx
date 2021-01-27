@@ -24,9 +24,6 @@ function Authpage() {
             <IonContent className="ion-padding">
                 <IonTitle>Sign In</IonTitle>
                 <div className="button-grp">
-                    <IonButton onClick={()=> Auth.federatedSignIn({
-                        provider: "Facebook"
-                    })} >FACELBOOK LOGO</IonButton>
                     <IonButton onClick={()=> Auth.federatedSignIn()} >Email</IonButton>
                 </div>
             </IonContent>

@@ -9,15 +9,10 @@ export const createPost = `mutation CreatePost(
     id
     title
     vidUrl
+    owner
     comments {
-      items {
-        id
-        content
-        owner
-      }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -29,15 +24,10 @@ export const updatePost = `mutation UpdatePost(
     id
     title
     vidUrl
+    owner
     comments {
-      items {
-        id
-        content
-        owner
-      }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -49,15 +39,10 @@ export const deletePost = `mutation DeletePost(
     id
     title
     vidUrl
+    owner
     comments {
-      items {
-        id
-        content
-        owner
-      }
       nextToken
     }
-    owner
   }
 }
 `;
@@ -72,9 +57,6 @@ export const createComment = `mutation CreateComment(
       id
       title
       vidUrl
-      comments {
-        nextToken
-      }
       owner
     }
     owner
@@ -92,9 +74,6 @@ export const updateComment = `mutation UpdateComment(
       id
       title
       vidUrl
-      comments {
-        nextToken
-      }
       owner
     }
     owner
@@ -112,9 +91,6 @@ export const deleteComment = `mutation DeleteComment(
       id
       title
       vidUrl
-      comments {
-        nextToken
-      }
       owner
     }
     owner

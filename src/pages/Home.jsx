@@ -2,7 +2,7 @@ import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonCont
 import React, { useState, useEffect, useRef, useContext, useHistory } from 'react';
 // import {AmplifySignOut} from "@aws-amplify/ui-react";
 import { Auth } from 'aws-amplify';
-
+import { publicLists } from "../graphql/queries";
 // Styles and assets
 import './Home.css';
 import "../App.css"
@@ -25,7 +25,7 @@ const Home = ({ history }) => {
   const [posts, setPosts] = useState([])
   const { state, dispatch } = useContext(AppContext)
 
-  console.log(state.currentUser)
+  console.log("posts ---> ", posts)
 
   useEffect(() => {
     fetchPosts();
@@ -37,13 +37,19 @@ const Home = ({ history }) => {
     }).catch(err => console.log(err))
   }, []);
 
+
   async function fetchPosts() {
     try {
       // const postsData = await API.graphql(graphqlOperation(listPosts))
       // const fetchedPosts = postsData.data.listPosts.items
-      // setPosts(fetchedPosts)
       
-    } catch (err) { console.log('error fetching todos') }
+      // console.log("posts ---> ", postsData)
+
+      // setPosts(fetchedPosts)
+      const aaRes = await API.graphql(graphqlOperation(publicLists))
+      console.log("PUBLIC--->", aaRes)
+      
+    } catch (err) { console.log("ERROR: --------> " , err) }
   }
 
   async function handleSignout() {
@@ -118,7 +124,7 @@ const Card = ({ item }) => {
 
     return (<IonCard>
       <IonItem>
-        <IonLabel className="username"></IonLabel>
+        <IonLabel className="username">@{item.owner}</IonLabel>
         <IonButton color="light" slot="end">
           <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
         </IonButton>

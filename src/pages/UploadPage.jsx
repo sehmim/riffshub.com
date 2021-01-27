@@ -10,7 +10,7 @@ import { AppContext } from "../State";
 
 import BackButton from "../components/BackButton";
 
-const UploadPage = () => {
+const UploadPage = ({ history }) => {
 
     const [pickedFile, setPickedFile] = useState()
     const [videoURL, setVideoURL] = useState()
@@ -59,12 +59,12 @@ const UploadPage = () => {
       .then (result => {
           const post = { 
             title: "Default Title",
-            vidUrl: result.key,
-            postAuthorId: state.currentUser.username
+            vidUrl: result.key
           }
           API.graphql(graphqlOperation(createPost, {input: post})).then(() =>{
             setUploading(false)
             setPickedFile(null)
+            history.push("/")
             console.log(result)
           }).catch(err => console.log(err))
         })

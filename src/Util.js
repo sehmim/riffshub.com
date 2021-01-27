@@ -6,7 +6,7 @@ export const getCurrentUser = async () => {
         const user = await Auth.currentAuthenticatedUser();
         return user
     } catch (error) {
-        console.log(error)
+        console.log("ERROR: ",error)
     }
 }
     
