@@ -33,7 +33,7 @@ import UploadPage from "./pages/UploadPage"
 
 // Configs && modules
 import awsExports from "./aws-exports";
-import Amplify from 'aws-amplify';
+import Amplify, { Storage } from 'aws-amplify';
 
 // CSS & assets
 import "./App.css"
@@ -43,15 +43,14 @@ import "./App.css"
 const App = () => {
   // const Firebase = firebase.initializeApp(firebaseConfig);
   Amplify.configure(awsExports);
-
+  Storage.configure({ level: 'public' });
 
   return ( 
     // <AmplifyAuthenticator >
     <IonApp className="App">
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/home" component={Home} exact={true} />
-          <Route exact path="/" render={() => <Redirect to="/home" />} />
+          <Route exact path="/" component={Home}/>
           <Route path="/auth" component={Authpage} to="/auth" />
           <Route path="/upload" component={UploadPage} to="/upload" />
         </IonRouterOutlet>

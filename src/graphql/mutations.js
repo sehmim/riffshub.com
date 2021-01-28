@@ -11,6 +11,11 @@ export const createPost = `mutation CreatePost(
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -26,6 +31,11 @@ export const updatePost = `mutation UpdatePost(
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -41,6 +51,11 @@ export const deletePost = `mutation DeletePost(
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -58,6 +73,9 @@ export const createComment = `mutation CreateComment(
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }
@@ -75,6 +93,9 @@ export const updateComment = `mutation UpdateComment(
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }
@@ -92,6 +113,9 @@ export const deleteComment = `mutation DeleteComment(
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }

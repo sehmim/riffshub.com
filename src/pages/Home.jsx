@@ -2,7 +2,6 @@ import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonCont
 import React, { useState, useEffect, useRef, useContext, useHistory } from 'react';
 // import {AmplifySignOut} from "@aws-amplify/ui-react";
 import { Auth } from 'aws-amplify';
-import { publicLists } from "../graphql/queries";
 // Styles and assets
 import './Home.css';
 import "../App.css"
@@ -23,31 +22,49 @@ import BackButton from '../components/BackButton';
 
 const Home = ({ history }) => {
   const [posts, setPosts] = useState([])
-  const { state, dispatch } = useContext(AppContext)
+  // const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  console.log("posts ---> ", posts)
+  const { state, dispatch } = useContext(AppContext)
 
   useEffect(() => {
     fetchPosts();
-    getCurrentUser().then(result => {
-      dispatch({
-        type: "getCurrentUser",
-        payload: result
-      })
-    }).catch(err => console.log(err))
   }, []);
+
+  useEffect(() => {
+    getCurrentUser().then(result => {
+        dispatch({
+          type: "getCurrentUser",
+          payload: result
+        })
+    }).catch(err => console.log(err))
+  }, [])
 
 
   async function fetchPosts() {
     try {
-      // const postsData = await API.graphql(graphqlOperation(listPosts))
-      // const fetchedPosts = postsData.data.listPosts.items
-      
-      // console.log("posts ---> ", postsData)
+      const postsData = await API.graphql({
+        query: listPosts, 
+        authMode: 'API_KEY'
+      })
 
-      // setPosts(fetchedPosts)
-      const aaRes = await API.graphql(graphqlOperation(publicLists))
-      console.log("PUBLIC--->", aaRes)
+      const fetchedPosts = postsData.data.listPosts.items
+
+      setPosts(fetchedPosts)
+      // const aaRes = await API.graphql(graphqlOperation())
+      console.log("PUBLIC--->", fetchedPosts)
+
+
+      // const items = await API.get('apie66d254a', '/posts', 
+      // {
+        // 'queryStringParameters': {
+        //   'order': 'byPrice'
+        // }
+      // }
+      // );
+      // console.log("ITEMs -> ", items)
+
+
+
       
     } catch (err) { console.log("ERROR: --------> " , err) }
   }
@@ -75,9 +92,7 @@ const Home = ({ history }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {
-          state.currentUser ? <PostContentButton /> : <SigninToPostButton/>
-        }
+        { !state.currentUser ? <SigninToPostButton/> : <PostContentButton /> }
         <br></br><br></br><br></br>
           {
             posts.map((item, index)=> {
@@ -117,8 +132,13 @@ const Card = ({ item }) => {
     },[])
 
     const fetchVideos = async () => {
-      const vid = await Storage.get(item.vidUrl)
-      setVideoUrl(vid)
+      try {
+        const vid = await Storage.get(item.vidUrl, { level : 'private', expires: 1500 })
+        setVideoUrl(vid)
+        console.log("VIDEO FOUND ------> ", vid)
+      } catch (error) {
+        console.log(error)
+      }
     }
     
 
@@ -126,15 +146,19 @@ const Card = ({ item }) => {
       <IonItem>
         <IonLabel className="username">@{item.owner}</IonLabel>
         <IonButton color="light" slot="end">
-          <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
+          <a href="/">
+            <img className="profile-pic-small" src={DEFAULT_PROFILE}></img>
+          </a>
         </IonButton>
       </IonItem>
       <IonItem onClick={pauseVideo}>
+        <div className="video-viewer-body">
         <video 
           ref={videoElm}
           className="video-viewer"
           src={videoUrl} 
           />
+        </div>
       </IonItem>
     </IonCard>)}
 

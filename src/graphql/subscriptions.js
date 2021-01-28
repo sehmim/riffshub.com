@@ -8,6 +8,11 @@ export const onCreatePost = `subscription OnCreatePost($owner: String!) {
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -20,6 +25,11 @@ export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -32,6 +42,11 @@ export const onDeletePost = `subscription OnDeletePost($owner: String!) {
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -46,6 +61,9 @@ export const onCreateComment = `subscription OnCreateComment($owner: String!) {
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }
@@ -60,6 +78,9 @@ export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }
@@ -74,6 +95,9 @@ export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }

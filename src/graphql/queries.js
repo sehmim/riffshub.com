@@ -1,10 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const publicLists = `query PublicLists($msg: String) {
-  publicLists(msg: $msg)
-}
-`;
 export const listPosts = `query ListPosts(
   $filter: ModelPostFilterInput
   $limit: Int
@@ -16,6 +12,9 @@ export const listPosts = `query ListPosts(
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     nextToken
   }
@@ -28,6 +27,11 @@ export const getPost = `query GetPost($id: ID!) {
     vidUrl
     owner
     comments {
+      items {
+        id
+        content
+        owner
+      }
       nextToken
     }
   }
@@ -42,6 +46,9 @@ export const getComment = `query GetComment($id: ID!) {
       title
       vidUrl
       owner
+      comments {
+        nextToken
+      }
     }
     owner
   }
@@ -56,6 +63,12 @@ export const listComments = `query ListComments(
     items {
       id
       content
+      post {
+        id
+        title
+        vidUrl
+        owner
+      }
       owner
     }
     nextToken

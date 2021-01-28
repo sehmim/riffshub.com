@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"videotest565e50a1": {
+		"videotest50d48932": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
@@ -23,35 +23,20 @@
 						{
 							"authenticationType": "API_KEY",
 							"apiKeyConfig": {
-								"description": "public access",
-								"apiKeyExpirationDays": "364"
+								"description": "publicKey",
+								"apiKeyExpirationDays": "365"
 							}
 						}
 					],
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authvideotest565e50a1"
+							"userPoolId": "authvideotest50d48932"
 						}
 					}
 				}
 			}
 		}
 	},
-	"function": {
-		"postlistpublic": {
-			"service": "Lambda",
-			"providerPlugin": "awscloudformation",
-			"build": true,
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "vids",
-					"attributes": [
-						"BucketName"
-					]
-				}
-			]
-		}
-	}
+	"function": {}
 }

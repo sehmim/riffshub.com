@@ -95,7 +95,7 @@ const UploadPage = ({ history }) => {
                   setPickedFile={setPickedFile}
                 /> 
               :
-              <div>
+              <div className="video-viewer-body">
                 <video 
                   className="video-viewer"
                   ref={videoElm}

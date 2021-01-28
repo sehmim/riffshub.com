@@ -1,11 +1,6 @@
 type Post
   @model
-  @auth(
-    rules: [
-      { allow: owner, operations: [read, create, delete, update] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   title: String!
   vidUrl: String!
@@ -13,12 +8,7 @@ type Post
 }
 type Comment
   @model
-  @auth(
-    rules: [
-      { allow: owner, operations: [read, create, delete, update] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   content: String
   post: Post @connection(name: "PostComments")
