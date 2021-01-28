@@ -1,6 +1,6 @@
 import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard } from '@ionic/react';
-import React, { useState, useEffect, useRef, useContext, useHistory } from 'react';
-// import {AmplifySignOut} from "@aws-amplify/ui-react";
+import React, { useState, useEffect, useRef, useContext } from 'react';
+
 import { Auth } from 'aws-amplify';
 // Styles and assets
 import './Home.css';
@@ -9,7 +9,7 @@ import DEFAULT_PROFILE from "../assets/fin.jpg"
 import LOGO from "../assets/guitar.jpg";
 
 // Modules
-import { Storage, API, graphqlOperation } from 'aws-amplify';
+import { Storage, API } from 'aws-amplify';
 import { listPosts } from '../graphql/queries'
 import { getCurrentUser } from "../Util";
 
@@ -17,7 +17,6 @@ import { getCurrentUser } from "../Util";
 import { AppContext } from "../State"
 import SigninToPostButton from "../components/SigninToPostButton";
 import PostContentButton from "../components/PostContentButton"
-import BackButton from '../components/BackButton';
 
 
 const Home = ({ history }) => {
@@ -83,14 +82,16 @@ const Home = ({ history }) => {
 
   return (
     <IonPage >
-      <IonHeader>
+      {/* <IonHeader>
         <IonToolbar>
-          <button onClick={handleSignout}> Signout</button>
-          <IonTitle style={{textAlign: "center"}}>
-            <img className="logo" src={LOGO} alt="logo"/>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
+          {/* <button onClick={handleSignout}> Signout</button> */}
+          {/* <IonTitle style={{textAlign: "center"}}>
+            <a href="/">
+              <img className="logo" src={LOGO} alt="logo"/>
+            </a>
+          </IonTitle> */}
+        {/* </IonToolbar> */}
+      {/* // </IonHeader> */}
       <IonContent>
         { !state.currentUser ? <SigninToPostButton/> : <PostContentButton /> }
         <br></br><br></br><br></br>
@@ -133,9 +134,9 @@ const Card = ({ item }) => {
 
     const fetchVideos = async () => {
       try {
-        const vid = await Storage.get(item.vidUrl, { level : 'private', expires: 1500 })
+        const vid = await Storage.get(item.vidUrl, { level : 'public', expires: 1500 })
         setVideoUrl(vid)
-        console.log("VIDEO FOUND ------> ", vid)
+
       } catch (error) {
         console.log(error)
       }
