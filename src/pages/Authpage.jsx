@@ -8,8 +8,6 @@ import {
     IonButton
   } from '@ionic/react';
 
-import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
-import { Home } from './Home';
 import { Auth } from 'aws-amplify';
 
 import '../App.css'

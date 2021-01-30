@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 
 import Error from "../components/Error";
-import { IonLoading, IonProgressBar, IonApp, IonRouterOutlet, IonPage , IonHeader, IonToolbar, IonTitle, IonContent,IonButton, IonItem, IonCard} from '@ionic/react';
+import { IonLoading, IonProgressBar,IonButton } from '@ionic/react';
 
 
 import { Storage, API, graphqlOperation } from 'aws-amplify';

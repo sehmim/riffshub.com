@@ -1,7 +1,6 @@
-import { IonButton, IonLabel, IonPage , IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonCard } from '@ionic/react';
+import { IonButton, IonLabel, IonPage , IonContent, IonItem, IonCard } from '@ionic/react';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 
-import { Auth } from 'aws-amplify';
 // Styles and assets
 import './Home.css';
 import "../App.css"
@@ -74,7 +73,8 @@ const Card = ({ item }) => {
     const videoElm = useRef();
     const [videoUrl, setVideoUrl] = useState("")
     const [isPlaying, setisPlaying] = useState(false)
-    const { state, dispatch } = useContext(AppContext)
+
+    // const { state, dispatch } = useContext(AppContext)
     
     const pauseVideo = () => {
       if (!isPlaying) {
