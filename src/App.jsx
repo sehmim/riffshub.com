@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect, useContext} from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 //////////////////////////////////////////////////////////////////
   /* Core CSS required for Ionic components to work properly */
@@ -38,15 +38,11 @@ import Amplify, { Storage } from 'aws-amplify';
 // CSS & assets
 import "./App.css"
 
-// import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
-
 const App = () => {
-  // const Firebase = firebase.initializeApp(firebaseConfig);
   Amplify.configure(awsExports);
   Storage.configure({ level: 'public' });
 
   return ( 
-    // <AmplifyAuthenticator >
     <IonApp className="App">
       <IonReactRouter>
         <IonRouterOutlet>
@@ -56,7 +52,6 @@ const App = () => {
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
-  // </AmplifyAuthenticator>
   )
 };
 

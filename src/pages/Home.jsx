@@ -6,7 +6,6 @@ import { Auth } from 'aws-amplify';
 import './Home.css';
 import "../App.css"
 import DEFAULT_PROFILE from "../assets/fin.jpg"
-import LOGO from "../assets/guitar.jpg";
 
 // Modules
 import { Storage, API } from 'aws-amplify';
@@ -17,12 +16,10 @@ import { getCurrentUser } from "../Util";
 import { AppContext } from "../State"
 import SigninToPostButton from "../components/SigninToPostButton";
 import PostContentButton from "../components/PostContentButton"
+import ProfileHeader from "../components/ProfileHeader"
 
-
-const Home = ({ history }) => {
+const Home = () => {
   const [posts, setPosts] = useState([])
-  // const [isAuthenticated, setIsAuthenticated] = useState(false)
-
   const { state, dispatch } = useContext(AppContext)
 
   useEffect(() => {
@@ -35,7 +32,7 @@ const Home = ({ history }) => {
           type: "getCurrentUser",
           payload: result
         })
-    }).catch(err => console.log(err))
+    }).catch(err => console.log("ERROR: ", err))
   }, [])
 
 
@@ -45,53 +42,16 @@ const Home = ({ history }) => {
         query: listPosts, 
         authMode: 'API_KEY'
       })
-
       const fetchedPosts = postsData.data.listPosts.items
-
       setPosts(fetchedPosts)
-      // const aaRes = await API.graphql(graphqlOperation())
-      console.log("PUBLIC--->", fetchedPosts)
-
-
-      // const items = await API.get('apie66d254a', '/posts', 
-      // {
-        // 'queryStringParameters': {
-        //   'order': 'byPrice'
-        // }
-      // }
-      // );
-      // console.log("ITEMs -> ", items)
-
-
-
-      
-    } catch (err) { console.log("ERROR: --------> " , err) }
-  }
-
-  async function handleSignout() {
-    try {
-        await Auth.signOut();
-        history.replace("/")
-        dispatch({
-          type: "signOutUser",
-        })
-    } catch (error) {
-        console.log('error signing out: ', error);
+    } catch (err) { 
+      console.log("ERROR: " , err) 
     }
-}
+  }
 
   return (
     <IonPage >
-      {/* <IonHeader>
-        <IonToolbar>
-          {/* <button onClick={handleSignout}> Signout</button> */}
-          {/* <IonTitle style={{textAlign: "center"}}>
-            <a href="/">
-              <img className="logo" src={LOGO} alt="logo"/>
-            </a>
-          </IonTitle> */}
-        {/* </IonToolbar> */}
-      {/* // </IonHeader> */}
+      <ProfileHeader />
       <IonContent>
         { !state.currentUser ? <SigninToPostButton/> : <PostContentButton /> }
         <br></br><br></br><br></br>
@@ -115,8 +75,6 @@ const Card = ({ item }) => {
     const [videoUrl, setVideoUrl] = useState("")
     const [isPlaying, setisPlaying] = useState(false)
     const { state, dispatch } = useContext(AppContext)
-
-    // console.log(state.currentUser.UserAttributes[4].Value)
     
     const pauseVideo = () => {
       if (!isPlaying) {
@@ -138,7 +96,7 @@ const Card = ({ item }) => {
         setVideoUrl(vid)
 
       } catch (error) {
-        console.log(error)
+        console.log("Error: ", error)
       }
     }
     

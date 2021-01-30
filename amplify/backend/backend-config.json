@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"videotest50d48932": {
+		"videotest83075d6c": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
@@ -23,7 +23,7 @@
 						{
 							"authenticationType": "API_KEY",
 							"apiKeyConfig": {
-								"description": "publicKey",
+								"description": "Public",
 								"apiKeyExpirationDays": "365"
 							}
 						}
@@ -31,7 +31,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authvideotest50d48932"
+							"userPoolId": "authvideotest83075d6c"
 						}
 					}
 				}

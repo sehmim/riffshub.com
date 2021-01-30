@@ -63,6 +63,7 @@
   height: 50px;
   position: fixed;
   z-index: 2;
+  margin: 0;
 }
 
 /* Button */
