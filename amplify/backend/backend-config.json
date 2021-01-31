@@ -23,7 +23,7 @@
 						{
 							"authenticationType": "API_KEY",
 							"apiKeyConfig": {
-								"description": "Public",
+								"description": "Public Key",
 								"apiKeyExpirationDays": "365"
 							}
 						}

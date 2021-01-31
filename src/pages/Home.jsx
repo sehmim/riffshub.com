@@ -44,10 +44,11 @@ const Home = () => {
       const fetchedPosts = postsData.data.listPosts.items
       setPosts(fetchedPosts)
     } catch (err) { 
-      console.log("ERROR: " , err) 
+      console.log("ERROR:" , err) 
     }
   }
 
+  console.log("Current User", state.currentUser)
   return (
     <IonPage >
       <ProfileHeader />

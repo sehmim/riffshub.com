@@ -15,6 +15,21 @@ export const onCreatePost = `subscription OnCreatePost($owner: String!) {
       }
       nextToken
     }
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
   }
 }
 `;
@@ -31,6 +46,21 @@ export const onUpdatePost = `subscription OnUpdatePost($owner: String!) {
         owner
       }
       nextToken
+    }
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
     }
   }
 }
@@ -49,6 +79,21 @@ export const onDeletePost = `subscription OnDeletePost($owner: String!) {
       }
       nextToken
     }
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
   }
 }
 `;
@@ -64,8 +109,32 @@ export const onCreateComment = `subscription OnCreateComment($owner: String!) {
       comments {
         nextToken
       }
+      author {
+        id
+        email
+        username
+        bio
+        profileUrl
+        tags
+        owner
+      }
     }
     owner
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
   }
 }
 `;
@@ -81,8 +150,32 @@ export const onUpdateComment = `subscription OnUpdateComment($owner: String!) {
       comments {
         nextToken
       }
+      author {
+        id
+        email
+        username
+        bio
+        profileUrl
+        tags
+        owner
+      }
     }
     owner
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
   }
 }
 `;
@@ -98,6 +191,117 @@ export const onDeleteComment = `subscription OnDeleteComment($owner: String!) {
       comments {
         nextToken
       }
+      author {
+        id
+        email
+        username
+        bio
+        profileUrl
+        tags
+        owner
+      }
+    }
+    owner
+    author {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
+  }
+}
+`;
+export const onCreateUser = `subscription OnCreateUser($owner: String!) {
+  onCreateUser(owner: $owner) {
+    id
+    email
+    username
+    bio
+    profileUrl
+    tags
+    posts {
+      items {
+        id
+        title
+        vidUrl
+        owner
+      }
+      nextToken
+    }
+    comments {
+      items {
+        id
+        content
+        owner
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const onUpdateUser = `subscription OnUpdateUser($owner: String!) {
+  onUpdateUser(owner: $owner) {
+    id
+    email
+    username
+    bio
+    profileUrl
+    tags
+    posts {
+      items {
+        id
+        title
+        vidUrl
+        owner
+      }
+      nextToken
+    }
+    comments {
+      items {
+        id
+        content
+        owner
+      }
+      nextToken
+    }
+    owner
+  }
+}
+`;
+export const onDeleteUser = `subscription OnDeleteUser($owner: String!) {
+  onDeleteUser(owner: $owner) {
+    id
+    email
+    username
+    bio
+    profileUrl
+    tags
+    posts {
+      items {
+        id
+        title
+        vidUrl
+        owner
+      }
+      nextToken
+    }
+    comments {
+      items {
+        id
+        content
+        owner
+      }
+      nextToken
     }
     owner
   }
