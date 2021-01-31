@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Storage } from 'aws-amplify';
 
 import { IonButton, IonLabel, IonItem, IonCard } from '@ionic/react';
 import DEFAULT_PROFILE from "../assets/fin.jpg"
