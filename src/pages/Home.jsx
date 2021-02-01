@@ -27,9 +27,10 @@ const Home = () => {
 
   useEffect(() => {
     getCurrentUser().then(result => {
+        console.log("CURRENT USER ON HOME ",result.data.getUserByEmail )
         dispatch({
           type: "getCurrentUser",
-          payload: result
+          payload: result.data.getUserByEmail
         })
     }).catch(err => console.log("ERROR: ", err))
   }, [])
@@ -42,6 +43,7 @@ const Home = () => {
         authMode: 'API_KEY'
       })
       const fetchedPosts = postsData.data.listPosts.items
+      console.log("Fetched Posts", fetchedPosts)
       setPosts(fetchedPosts)
     } catch (err) { 
       console.log("ERROR:" , err) 
@@ -53,6 +55,7 @@ const Home = () => {
     <IonPage >
       <ProfileHeader />
       <IonContent>
+      {/* <PostContentButton />  */}
         { !state.currentUser ? <SigninToPostButton/> : <PostContentButton /> }
         <br></br><br></br><br></br>
           {

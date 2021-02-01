@@ -1,40 +1,56 @@
 import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { getUser } from '../src/graphql/queries'
-import { createUser } from './graphql/mutations';
+import { getUserByEmail } from '../src/graphql/queries'
+import { createUser  } from './graphql/mutations';
 
-export const getCurrentUser = async (dispatch) => {
+export const getCurrentUser = async () => {
     // Check Whos signed in first 
-    try {
-        const user = await Auth.currentAuthenticatedUser();
+    const authUser = await getAuthFromFB();
 
-        // See if this user exists in out database
-        try {
-            let currentUser = await API.graphql(graphqlOperation(
-                getUser, { id: user.attributes.email }
-            ))
+    // console.log("AUTH USER -->", authUser)
 
-            console.log(currentUser.data.getUser)
+    // if user exists then query the user data from DB
+    if (!authUser) {
+        // console.log("No User found, creating new user")
 
-            return currentUser.data.getUser
+        const userData = await createUserOnDB(authUser)
+        return userData
+    // if user does not exists then create a user
+    } else {
+    // console.log("User, found Fetching user info")
 
-        } catch (error) {
-            console.log("Error: ERROR: Couldn't see if Current User exists ->", error)
-            // Sign them the fuck up
-            const newUserPayload = {
-                id: user.attributes.email,
-                email: user.attributes.email,
-                username: "User",
-            }
-            try {
-                const newUserResponse = await API.graphql(graphqlOperation(createUser, {input: newUserPayload}))
-                console.log("respond from creation of new user", newUserResponse)
-                return newUserPayload
-            } catch (error) {
-                console.log("Error: ERROR: Couldn't create new user ->", error)
-            }
-        }
-    } catch (error) {
-        console.log("ERROR: Couldn't get Current User->", error)
+    const userData = await getUserFromDB(authUser)
+    return userData
     }
 }
     
+async function getAuthFromFB() {
+    try {
+        const user = await Auth.currentAuthenticatedUser();
+        return user
+    } catch (error) {
+        console.log("ERROR FROM getAuthFromFB: ", error)
+    }
+}
+
+async function createUserOnDB(user) {
+    try {
+        let currentUser = await API.graphql(graphqlOperation(
+            createUser, { email: user.attributes.email, username: user.username }
+        ))
+        console.log("createUserOnDB", currentUser)
+        return currentUser
+    } catch (error) {
+        console.log("ERROR FROM createUserOnDB: ", error)
+    }
+}
+
+async function getUserFromDB(user) {
+    try {
+        let currentUser = await API.graphql(graphqlOperation(
+            getUserByEmail, { email: user.attributes.email }
+        ))
+        return currentUser
+    } catch (error) {
+        console.log("ERROR FROM getUserFromDB: ", error)
+    }
+}

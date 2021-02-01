@@ -18,7 +18,8 @@ type Comment
 
 type User
   @model
-  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }])
+  @key(name: "byEmail", fields: ["email"], queryField: "getUserByEmail") {
   id: ID!
   email: String!
   username: String!

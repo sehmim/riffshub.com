@@ -9,6 +9,11 @@ import { createPost } from "../graphql/mutations";
 import { AppContext } from "../State";
 
 import BackButton from "../components/BackButton";
+// import cloudinary from 'cloudinary'
+const apiVideo = require('@api.video/nodejs-sdk');
+
+const client = new apiVideo.ClientSandbox({ apiKey: 'CqDdKbizcJnaTq9jNTAWJTXyE3J9ym8pQVjfyUjgCj4' });
+
 
 const UploadPage = ({ history }) => {
 
@@ -49,26 +54,59 @@ const UploadPage = ({ history }) => {
   
     const handleUpload = async () => {
       setUploading(true)
-  
-      Storage.put(pickedFile[0].name, pickedFile[0], {
-        progressCallback(progress) {
+
+      try {
+        let result = await Storage.put(pickedFile[0].name, pickedFile[0], {
+          progressCallback(progress) {
             setUploadingProgress((progress.loaded/progress.total) * 100)
             console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-        },
-      })
-      .then (result => {
-          const post = { 
-            title: "Default Title",
-            vidUrl: result.key
-          }
-          API.graphql(graphqlOperation(createPost, {input: post})).then(() =>{
-            setUploading(false)
-            setPickedFile(null)
-            history.push("/")
-            console.log(result)
-          }).catch(err => console.log(err))
+          },
         })
-      .catch(err => console.log(err));
+        console.log("Video Added to Store")
+        const dbResponse = await addVideoURLToDB(result)
+                    
+        setUploading(false)
+        setPickedFile(null)
+        history.push("/")
+        console.log("dbResponse", dbResponse)
+
+      } catch (error) {
+        console.error("Storage Error", error);
+      }
+  
+      // Storage.put(pickedFile[0].name, pickedFile[0], {
+      //   progressCallback(progress) {
+      //       setUploadingProgress((progress.loaded/progress.total) * 100)
+      //       console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      //   },
+      // })
+      // .then (result => {
+      //     const post = { 
+      //       title: "Default Title",
+      //       vidUrl: result.key
+      //     }
+      //     API.graphql(graphqlOperation(createPost, {input: post})).then(() =>{
+      //       setUploading(false)
+      //       setPickedFile(null)
+      //       history.push("/")
+      //       console.log(result)
+      //     }).catch(err => console.log(err))
+      //   })
+      // .catch(err => console.log(err));
+    }
+
+    async function addVideoURLToDB(result) {
+          try {
+            const post = { 
+              title: "Default Title",
+              vidUrl: result.key,
+              // postAuthorId: state.current
+            }
+            const apiResponse = await API.graphql(graphqlOperation(createPost, {input: post}))
+            return apiResponse
+          } catch (error) {
+            console.log("ERROR: addVideoURLToDB", error)
+          }
     }
   
     return (

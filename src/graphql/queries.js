@@ -186,3 +186,36 @@ export const getUser = `query GetUser($id: ID!) {
   }
 }
 `;
+export const getUserByEmail = `query GetUserByEmail(
+  $email: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getUserByEmail(
+    email: $email
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      email
+      username
+      bio
+      profileUrl
+      tags
+      posts {
+        nextToken
+      }
+      comments {
+        nextToken
+      }
+      owner
+    }
+    nextToken
+  }
+}
+`;

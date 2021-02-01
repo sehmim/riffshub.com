@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"videotest83075d6c": {
+		"videotestb48bf565": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
@@ -31,12 +31,13 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authvideotest83075d6c"
+							"userPoolId": "authvideotestb48bf565"
 						}
 					}
 				}
 			}
 		}
 	},
-	"function": {}
+	"function": {},
+	"hosting": {}
 }

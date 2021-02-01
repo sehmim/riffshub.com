@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "videotest83075d6c_identitypool_83075d6c",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "videot83075d6c",
-    "userPoolName": "videotest83075d6c_userpool_83075d6c",
+    "identityPoolName": "videotestb48bf565_identitypool_b48bf565",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "videotb48bf565",
+    "userPoolName": "videotestb48bf565_userpool_b48bf565",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,9 +28,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "videot83075d6c_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "videotb48bf565_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "videotest83075d6c",
+    "resourceName": "videotestb48bf565",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -46,7 +46,7 @@
     },
     "useDefault": "defaultSocial",
     "hostedUI": true,
-    "hostedUIDomainName": "vidtest",
+    "hostedUIDomainName": "videotestb48bf565-b48bf565",
     "authProvidersUserPool": [
         "Facebook"
     ],
